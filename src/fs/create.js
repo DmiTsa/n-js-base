@@ -1,19 +1,16 @@
-import { appendFile, access, constants } from 'node:fs/promises';
-import { join, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { appendFile } from 'node:fs/promises';
+import getPath from './getPath.js';
+import isAvailable from './isAvailable.js';
 
 const create = async () => {
-  const pathRun = dirname(fileURLToPath(import.meta.url));
-  const pathDest = '/files';
-  const fileName = 'fresh.txt';
+  const fullPath = getPath('/files', 'fresh.txt');
   const data = 'I am fresh and young';
   const errorMsg = 'FS operation failed';
 
-  try {
-    await access(join(pathRun, pathDest, fileName), constants.F_OK);
+  if (await isAvailable(fullPath)) {
     console.error(errorMsg);
-  } catch {
-    appendFile(join(pathRun, pathDest, fileName), data);
+  } else {
+    appendFile(fullPath, data);
   }
 };
 

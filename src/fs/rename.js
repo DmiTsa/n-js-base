@@ -1,27 +1,17 @@
-// rename.js - реализовать функцию, которая переименовывает файл
-// wrongFilename.txt в properFilename с расширением .md
-// (если файл wrongFilename.txt или properFilename.md уже существует, должна быть выдана ошибка с сообщением Ошибка операции FS)
-import { rename, access, constants } from 'node:fs/promises';
-import { join } from 'node:path';
+import { rename } from 'node:fs/promises';
+import getPath from './getPath.js';
+import isAvailable from './isAvailable.js';
 
-const renameFile = async () => {};
-const path = './src/fs/files';
-const wrongName = 'wrongFilename.txt';
-const properName = 'properFilename.md';
+const renameFile = async () => {
+  const fullPathWrong = getPath('/files', 'wrongFilename.txt');
+  const fullPathProper = getPath('/files', 'properFilename.md');
+  const errorMsg = 'FS operation failed';
 
-// console.log(access(join(path, properName), constants.F_OK));
-let a1 = 1;
-try {
-  a1 = await access(join(path, wrongName), constants.F_OK);
-  //   const a2 = await access(join(path, properName), constants.F_OK);
-  console.error('Сбой операции файловой системы');
-  console.log(a1);
-  //   console.log(a2);
-} catch {
-  console.log('catch');
-  console.log(a1);
-
-  //   rename(join(path, wrongName), join(path, properName));
-}
+  if (await isAvailable(fullPathProper)) {
+    console.error(errorMsg);
+  } else {
+    rename(fullPathWrong, fullPathProper);
+  }
+};
 
 await renameFile();

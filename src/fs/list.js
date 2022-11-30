@@ -1,26 +1,16 @@
-// list.js - реализовать функцию, которая выводит весь массив имен файлов из папки с файлами в консоль (если папка с файлами не существует, должна быть выдана ошибка с сообщением о сбое операции FS)
-import { readdir, access, constants } from 'node:fs/promises';
-import { join, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { readdir } from 'node:fs/promises';
+import getPath from './getPath.js';
+import isAvailable from './isAvailable.js';
 
 const list = async () => {
-  const pathRun = dirname(fileURLToPath(import.meta.url));
-  const path = '/files';
+  const fullPath = getPath('/files');
   const errorMsg = 'FS operation failed';
 
-  try {
-    await access(join(pathRun, path), constants.F_OK);
-
-    const files = await readdirjoin(pathRun, path);
-    console.log(files);
-
-    // for (const file of files)
-    //   console.log(file);
-
-    // rm(join(pathRun, path, file));
-  } catch {
+  if (await isAvailable(fullPath)) {
+    const files = await readdir(fullPath);
+    console.log(`File list (${fullPath}) :`);
+    files.forEach((file) => console.log(file));
+  } else {
     console.error(errorMsg);
   }
 };
-
-await list();

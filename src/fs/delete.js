@@ -1,17 +1,14 @@
-import { rm, access, constants } from 'node:fs/promises';
-import { join, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { rm } from 'node:fs/promises';
+import getPath from './getPath.js';
+import isAvailable from './isAvailable.js';
 
 const remove = async () => {
-  const pathRun = dirname(fileURLToPath(import.meta.url));
-  const path = '/files';
-  const file = 'fileToRemove.txt';
+  const fullPath = getPath('/files', 'fileToRemove.txt');
   const errorMsg = 'FS operation failed';
 
-  try {
-    await access(join(pathRun, path, file), constants.F_OK);
-    rm(join(pathRun, path, file));
-  } catch {
+  if (await isAvailable(fullPath)) {
+    rm(fullPath);
+  } else {
     console.error(errorMsg);
   }
 };
