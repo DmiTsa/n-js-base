@@ -1,18 +1,20 @@
 import { Transform } from 'node:stream';
-import { createWriteStream } from 'node:fs';
-import getPath from './getPath.js';
+// import { createWriteStream } from 'node:fs';
+// import getPath from './getPath.js';
 
 const transform = async () => {
-  const path = getPath('files', 'fileToWrite.txt');
-  const writeStream = createWriteStream(path);
+  //   const path = getPath('files', 'fileToWrite.txt');
+  //   const writeStream = createWriteStream(path);
 
   const reverse = new Transform({
-    transform(chunk, encoding, callback) {},
+    transform(chunk, encoding, callback) {
+      callback(null, chunk.toString().split(' ').reverse().join(' '));
+    },
   });
 
-  console.log('input data');
-  //   process.stdin.pipe(reverse).pipe(process.stdout);
-  process.stdin.pipe(reverse).pipe(writeStream);
+  console.log('input text here:');
+  process.stdin.pipe(reverse).pipe(process.stdout);
+  //   process.stdin.pipe(reverse).pipe(writeStream);
 };
 await transform();
 

@@ -1,5 +1,5 @@
-const str = 'abcd-rrrr';
+const str = 'я сегодня пьян, не сяду за руль';
 
-const rez = str.split('-');
+let rez = str.split(' ').reverse().join(' ');
 
-console.log(rez);
+// console.log(rez);
