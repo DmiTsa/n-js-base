@@ -10,6 +10,3 @@ const read = async () => {
 };
 
 await read();
-
-// read.js — реализовать функцию, которая читает содержимое файла fileToRead.txt
-// с помощью Readable Stream и выводит его содержимое в process.stdout.
