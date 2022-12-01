@@ -1,1 +1,1 @@
-const matchesStr = (str) => {};
+console.log(process.env);
