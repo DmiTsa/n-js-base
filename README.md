@@ -1,1 +1,1 @@
-# node-nodejs-basics module 1
+# repository for drafts course node-nodejs-basics 
