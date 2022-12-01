@@ -11,6 +11,8 @@ const create = async () => {
     console.error(errorMsg);
   } else {
     appendFile(fullPath, data);
+    console.log('file fresh.txt created!');
+    console.log(`Path: ${fullPath}`);
   }
 };
 

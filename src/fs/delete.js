@@ -8,6 +8,7 @@ const remove = async () => {
 
   if (await isAvailable(fullPath)) {
     rm(fullPath);
+    console.log('file deleted!');
   } else {
     console.error(errorMsg);
   }

@@ -11,6 +11,8 @@ const renameFile = async () => {
     console.error(errorMsg);
   } else {
     rename(fullPathWrong, fullPathProper);
+    console.log('file renamed!');
+    console.log(`New path: ${fullPathProper}`);
   }
 };
 

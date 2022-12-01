@@ -14,3 +14,5 @@ const list = async () => {
     console.error(errorMsg);
   }
 };
+
+await list();
