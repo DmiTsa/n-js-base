@@ -2,8 +2,12 @@ import { createGzip } from 'node:zlib';
 import { pipeline } from 'node:stream';
 import { createReadStream, createWriteStream } from 'node:fs';
 import { promisify } from 'node:util';
+import getPath from './getPath.js';
 
 const compress = async () => {
+  const inputPath = getPath('files', 'fileToCompress.txt');
+  const outputPath = getPath('files', 'archive.gz');
+  const errorMsg = 'Operation error: ';
   const pipe = promisify(pipeline);
 
   async function zipper(input, output) {
@@ -13,31 +17,9 @@ const compress = async () => {
     await pipe(source, gzip, destination);
   }
 
-  await zipper('input.txt', 'input.txt.gz').catch((err) => {
-    console.error('An error occurred:', err);
-    //   process.exitCode = 1;
+  await zipper(inputPath, outputPath).catch((err) => {
+    console.error(errorMsg, err);
   });
 };
 
 await compress();
-
-//compress.js — реализовать функцию, которая сжимает файл fileToCompress.txt в archive.gz, используя zlib и Streams API.
-//import { Transform } from 'node:stream';
-
-// import { createWriteStream } from 'node:fs';
-// import getPath from './getPath.js';
-
-const transform = async () => {
-  //   const path = getPath('files', 'fileToWrite.txt');
-  //   const writeStream = createWriteStream(path);
-
-  const reverse = new Transform({
-    transform(chunk, encoding, callback) {
-      callback(null, chunk.toString().split(' ').reverse().join(' '));
-    },
-  });
-
-  console.log('input text here:');
-  process.stdin.pipe(reverse).pipe(process.stdout);
-  //   process.stdin.pipe(reverse).pipe(writeStream);
-};
