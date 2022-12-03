@@ -1,26 +1,22 @@
 import { sep } from 'path';
 import { dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { release, version } from 'os';
-import { createServer as createServerHttp } from 'node:http'; //
+import { createServer as createServerHttp } from 'node:http';
+import { createRequire } from 'module';
+import { fileURLToPath } from 'url';
 import './files/c.js';
 
-import { createRequire } from 'node:module';
-
 const random = Math.random();
+const require = createRequire(import.meta.url);
 const pathFile = fileURLToPath(import.meta.url);
 const pathRun = dirname(pathFile);
 
-import { assert } from 'console';
+let unknownObject;
 
-let unknownObject = 1;
-
-if (true) {
-  //random > 0.5
-  const unknownObject = createRequire(import.meta.url);
+if (random > 0.5) {
+  unknownObject = require('./files/a.json');
 } else {
-  // unknownObject = data2.name;
-  // unknownObject = await import('./files/b.json');
+  unknownObject = require('./files/b.json');
 }
 
 console.log(`Release ${release()}`);
@@ -34,7 +30,7 @@ const myServer = createServerHttp((_, res) => {
   res.end('Request accepted');
 });
 
-const PORT = 3000;
+const PORT = 3001;
 
 console.log(unknownObject);
 
