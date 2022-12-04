@@ -1,5 +1,4 @@
 const args = process.argv.slice(2);
-// const args = ['--arg1', 'rrrt', '--arg2', 'tttt'];
 
 console.log(`Total number of arguments is ${args.length}`);
 console.log(`Arguments: ${JSON.stringify(args)}`);

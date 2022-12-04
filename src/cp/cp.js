@@ -3,7 +3,8 @@ import getPath from '../fs/getPath.js';
 
 const spawnChildProcess = async (args) => {
   const pathCPFile = getPath('/files', 'script.js');
-  const spawnProc = spawn('node', [pathCPFile]);
+  args.unshift(pathCPFile);
+  const spawnProc = spawn('node', args);
 
   process.stdin.on('data', () => {
     spawnProc.stdout.pipe(process.stdin);
@@ -11,4 +12,4 @@ const spawnChildProcess = async (args) => {
   });
 };
 
-spawnChildProcess();
+spawnChildProcess(['arg1', 'arg2']);
