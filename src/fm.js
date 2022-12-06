@@ -1,13 +1,32 @@
+import { createReadStream, createWriteStream } from 'node:fs';
+import getPath from './fileManager/getPath.js'; //ПЕРЕДЕЛАТЬ getPath!!
+import commandHandler from './fileManager/commandHandler.js';
+
 const args = process.argv;
 const username = getArgValue(args, '--username=');
+let command;
 
-console.log(`Welcome to the File Manager, ${username}!`);
+console.log(
+  `Welcome to the File Manager ${username === undefined ? '' : username}!`
+);
+greeting();
+
+process.stdin.setEncoding('utf-8').on('data', (str) => {
+  commandHandler(str);
+  greeting();
+});
+
+// You are currently in path_to_working_directory
 
 //TODO После завершения работы программы (нажатие ctrl+c или ввод пользователем команды .exit в консоль) программа выводит в консоль следующий текст Thank you for using File Manager, Username, goodbye!
 // console.log(`Thank you for using File Manager, ${username}, goodbye!`);
 
-//readline
 //Functions
+function greeting() {
+  console.log(`You are currently in ${getPath()}`);
+  return;
+}
+
 function getArgValue(args, argName) {
   let value;
   args.forEach((el) => {
@@ -29,42 +48,3 @@ function getArgValue(args, argName) {
 // //TODO В случае ошибки во время выполнения операции должно быть показано сообщение «Операция не удалась», и пользователь должен иметь возможность ввести другую команду (например, попытка выполнить операцию с несуществующим файлом или работать с несуществующим путем должна привести к сбою операции). )
 
 // //TODO Пользователь не может перейти выше корневого каталога (например, в Windows это текущий корень локального диска). Если пользователь попытается это сделать, текущий рабочий каталог не изменится.
-
-// КОМАНДЫ:
-
-// up > Перейти вверх из текущего каталога (когда вы находитесь в корневой папке, эта операция не должна изменять рабочий каталог)
-
-// cd path_to_directory > Перейти в выделенную папку из текущего каталога (path_to_directory может быть относительным или абсолютным)
-
-// ls > Вывести в консоли список всех файлов и папок в текущем каталоге. Список должен содержать:
-// 	список должен содержать имена файлов и папок (для файлов - с расширением)
-// 	папки и файлы сортируются в алфавитном порядке по возрастанию, но сначала идет список папок
-// 	тип содержимого каталога должен быть помечен явно (например, как соответствующее значение столбца)
-
-// cat path_to_file > Прочитайте файл и распечатайте его содержимое в консоли (это следует делать с помощью Readable stream):
-
-// add new_file_name > Создать пустой файл в текущем рабочем каталоге:
-
-// rn path_to_file new_filename > Переименуйте файл (содержимое должно остаться без изменений):
-
-// cp path_to_file path_to_new_directory > Скопируйте файл (должно быть выполнено с использованием потоков Readable и Writable):
-
-// mv path_to_file path_to_new_directory > Переместить файл (то же самое, что и копирование, но исходный файл удаляется, часть копирования должна выполняться с использованием потоков Readable и Writable):
-
-// rm path_to_file > удалить файл
-
-// os --EOL > Получите EOL (системный End-Of-Line по умолчанию) и распечатайте его на консоли
-
-// os --cpus > Получите информацию о процессорах хост-машины (общее количество процессоров плюс модель и тактовая частота (в ГГц) для каждого из них) и распечатайте ее на консоли.
-
-// os --homedir > Получить домашний каталог и вывести его на консоль
-
-// os --username > Получить текущее системное имя пользователя (не путать с именем пользователя, которое задается при запуске приложения) и вывести его на консоль
-
-// os --architecture > Получите архитектуру ЦП, для которой скомпилирован двоичный файл Node.js, и распечатайте его на консоли.
-
-// hash path_to_file > Вычислить хэш для файла и вывести его в консоль
-
-// compress path_to_file path_to_destination > Сжать файл (используя алгоритм Brotli, следует использовать Streams API)
-
-// decompress path_to_file path_to_destination > Распаковать файл (используя алгоритм Brotli, следует использовать Streams API)
