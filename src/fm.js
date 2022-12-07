@@ -1,5 +1,6 @@
-import getCurrentPath from '../util/getCurrentPath.js';
-import commandHandler from './fileManager/commandHandler.js';
+import process from 'process';
+import getCurrentPath from './util/getCurrentPath.js';
+import commandHandler from './handlers/commandHandler.js';
 
 const args = process.argv;
 const username = getArgValue(args, '--username=');
@@ -14,9 +15,11 @@ greeting(currentPath);
 
 process.stdin.setEncoding('utf-8').on('data', (str) => {
   //сделать возврат кода хендлером объект {code, path}
-  const status = commandHandler(str);
+  console.log('тип' + typeof str);
+
+  commandHandler(str);
   greeting(currentPath);
-  //написать exit функцию
+  // process.stdin.closed;
 });
 
 // You are currently in path_to_working_directory
