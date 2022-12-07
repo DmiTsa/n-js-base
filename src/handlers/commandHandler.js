@@ -3,12 +3,12 @@ import killProcess from '../util/killProcess.js'; //доработать
 function commandHandler(com) {
   // console.log('тип handler' + typeof str);
 
-  if (com.toString() === '.exit') {
+  if (com === '.exit') {
     console.log('signal EXIT');
 
     killProcess();
   }
-  console.log(com.toString() === '.exit');
+  // console.log(com.toString() === '.exit');
 
   console.log('принята команда: ' + com);
   // os --cpus > Получите информацию о процессорах хост-машины (общее количество процессоров плюс модель и тактовая частота (в ГГц) для каждого из них) и распечатайте ее на консоли.

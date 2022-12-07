@@ -13,13 +13,11 @@ console.log(
 
 greeting(currentPath);
 
+let command;
 process.stdin.setEncoding('utf-8').on('data', (str) => {
-  //сделать возврат кода хендлером объект {code, path}
-  console.log('тип' + typeof str);
-
-  commandHandler(str);
+  command = str.toString();
+  commandHandler(command);
   greeting(currentPath);
-  // process.stdin.closed;
 });
 
 // You are currently in path_to_working_directory
