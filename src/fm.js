@@ -1,19 +1,22 @@
-import { createReadStream, createWriteStream } from 'node:fs';
-import getPath from './fileManager/getPath.js'; //ПЕРЕДЕЛАТЬ getPath!!
+import getCurrentPath from '../util/getCurrentPath.js';
 import commandHandler from './fileManager/commandHandler.js';
 
 const args = process.argv;
 const username = getArgValue(args, '--username=');
-let command;
+const homePath = null;
+const currentPath = getCurrentPath(import.meta.url);
 
 console.log(
-  `Welcome to the File Manager ${username === undefined ? '' : username}!`
+  `Welcome to the File Manager${username === undefined ? '' : ', ' + username}!`
 );
-greeting();
+
+greeting(currentPath);
 
 process.stdin.setEncoding('utf-8').on('data', (str) => {
-  commandHandler(str);
-  greeting();
+  //сделать возврат кода хендлером объект {code, path}
+  const status = commandHandler(str);
+  greeting(currentPath);
+  //написать exit функцию
 });
 
 // You are currently in path_to_working_directory
@@ -22,9 +25,9 @@ process.stdin.setEncoding('utf-8').on('data', (str) => {
 // console.log(`Thank you for using File Manager, ${username}, goodbye!`);
 
 //Functions
-function greeting() {
-  console.log(`You are currently in ${getPath()}`);
-  return;
+
+function greeting(path) {
+  console.log(`You are currently in ${path}`);
 }
 
 function getArgValue(args, argName) {
