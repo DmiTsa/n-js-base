@@ -1,24 +1,47 @@
 import process from 'process';
+import { homedir } from 'os';
+import { once } from 'events';
+import { createInterface } from 'readline';
 import getCurrentPath from './util/getCurrentPath.js';
 import commandHandler from './handlers/commandHandler.js';
 
 const args = process.argv;
 const username = getArgValue(args, '--username=');
-const homePath = null;
-const currentPath = getCurrentPath(import.meta.url);
+const homePath = homedir();
+let currentPath = getCurrentPath(import.meta.url);
 
 console.log(
   `Welcome to the File Manager${username === undefined ? '' : ', ' + username}!`
 );
+greeting(homePath);
+await processCommand();
 
-greeting(currentPath);
+async function processCommand() {
+  try {
+    const rl = createInterface({
+      input: process.stdin,
+      crlfDelay: Infinity,
+    });
 
-let command;
-process.stdin.setEncoding('utf-8').on('data', (str) => {
-  command = str.toString();
-  commandHandler(command);
-  greeting(currentPath);
+    rl.on('line', (line) => {
+      currentPath = commandHandler(line); //execute command and return current path
+      greeting(currentPath);
+    });
+
+    await once(rl, 'close');
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+process.on('SIGINT', () => {
+  console.log('GOODBYE!!');
 });
+// process.stdin.setEncoding('utf-8').on('data', (str) => {
+//   command = str.toString();
+// commandHandler(command);
+// greeting(currentPath);
+// });
 
 // You are currently in path_to_working_directory
 

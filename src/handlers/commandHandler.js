@@ -1,20 +1,27 @@
 import killProcess from '../util/killProcess.js'; //доработать
+import osCommandHandler from './osCommandHandler.js';
+
+let currentCommand;
 
 function commandHandler(com) {
-  // console.log('тип handler' + typeof str);
-
   if (com === '.exit') {
-    console.log('signal EXIT');
-
     killProcess();
   }
-  // console.log(com.toString() === '.exit');
+  currentCommand = com.split(' '); //[os, --cpus]
 
-  console.log('принята команда: ' + com);
+  switch (currentCommand[0]) {
+    case 'os':
+      osCommandHandler(currentCommand);
+      break;
+    default:
+      console.log('команда не распознана');
+  }
+
+  // console.log(currentCommand);
   // os --cpus > Получите информацию о процессорах хост-машины (общее количество процессоров плюс модель и тактовая частота (в ГГц) для каждого из них) и распечатайте ее на консоли.
   return;
 }
-
+// commandHandler('dddd hhhhhh');
 export default commandHandler;
 
 // КОМАНДЫ:
@@ -39,16 +46,6 @@ export default commandHandler;
 // mv path_to_file path_to_new_directory > Переместить файл (то же самое, что и копирование, но исходный файл удаляется, часть копирования должна выполняться с использованием потоков Readable и Writable):
 
 // rm path_to_file > удалить файл
-
-// os --EOL > Получите EOL (системный End-Of-Line по умолчанию) и распечатайте его на консоли
-
-// os --cpus > Получите информацию о процессорах хост-машины (общее количество процессоров плюс модель и тактовая частота (в ГГц) для каждого из них) и распечатайте ее на консоли.
-
-// os --homedir > Получить домашний каталог и вывести его на консоль
-
-// os --username > Получить текущее системное имя пользователя (не путать с именем пользователя, которое задается при запуске приложения) и вывести его на консоль
-
-// os --architecture > Получите архитектуру ЦП, для которой скомпилирован двоичный файл Node.js, и распечатайте его на консоли.
 
 // hash path_to_file > Вычислить хэш для файла и вывести его в консоль
 
