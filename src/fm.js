@@ -8,7 +8,7 @@ import commandHandler from './handlers/commandHandler.js';
 const args = process.argv;
 const username = getArgValue(args, '--username=');
 const homePath = homedir();
-let currentPath = getCurrentPath(import.meta.url);
+let currentPath; // = getCurrentPath(import.meta.url);
 
 console.log(
   `Welcome to the File Manager${username === undefined ? '' : ', ' + username}!`
@@ -24,8 +24,8 @@ async function processCommand() {
     });
 
     rl.on('line', (line) => {
-      currentPath = commandHandler(line); //execute command and return current path
-      greeting(currentPath);
+      commandHandler(line);
+      // greeting(currentPath);
     });
 
     await once(rl, 'close');

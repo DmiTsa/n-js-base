@@ -1,5 +1,7 @@
 import killProcess from '../util/killProcess.js'; //доработать
 import osCommandHandler from './osCommandHandler.js';
+// import osCommandHandler from './osCommandHandler.js'; другой хендлер
+// import osCommandHandler from './osCommandHandler.js'; другой хендлер
 
 let currentCommand;
 
@@ -7,21 +9,31 @@ function commandHandler(com) {
   if (com === '.exit') {
     killProcess();
   }
-  currentCommand = com.split(' '); //[os, --cpus]
+  currentCommand = com.split(' ');
 
   switch (currentCommand[0]) {
     case 'os':
       osCommandHandler(currentCommand);
       break;
+    // case 'hash':
+    //   null;
+    //   break;
+    // case 'compress':
+    //   null;
+    //   break;
+    // case 'decompress':
+    //   null;
+    //   break;
+    // case 'help':
+    //   null;
+    //   break;
     default:
-      console.log('команда не распознана');
+      console.log('Instruction is not defined');
+      console.log("Enter 'help' to get prompt");
   }
-
-  // console.log(currentCommand);
-  // os --cpus > Получите информацию о процессорах хост-машины (общее количество процессоров плюс модель и тактовая частота (в ГГц) для каждого из них) и распечатайте ее на консоли.
   return;
 }
-// commandHandler('dddd hhhhhh');
+
 export default commandHandler;
 
 // КОМАНДЫ:

@@ -1,36 +1,39 @@
-import { cpus, arch } from 'os';
+import { cpus, arch, homedir, userInfo, EOL } from 'os';
 
 function osCommandHandler(com) {
   switch (com[1]) {
     case '--EOL':
-      null;
+      console.log(`System EOL(s):`);
+      console.log([...EOL]);
       break;
     case '--cpus':
-      console.log(cpus());
+      printCpusInfo();
       break;
     case '--homedir':
-      null;
+      console.log(`Home directory this PC: ${homedir()}`);
       break;
     case '--username':
-      null;
+      const userName = userInfo().username;
+      console.log(`Current user this PC: ${userName}`);
       break;
     case '--architecture':
-      console.log(arch());
+      console.log(`Architecture this PC: ${arch()}`);
       break;
     default:
       console.log(`argument error: ${com[1]} is not defined`);
   }
-  //['os', '--cpus']
 }
 
 export default osCommandHandler;
 
-// os --EOL > Получите EOL (системный End-Of-Line по умолчанию) и распечатайте его на консоли
+//functions
+function printCpusInfo() {
+  const cpusAll = cpus();
+  const cpusInfo = cpusAll.map((el, i) => {
+    return { model: el.model, speed: el.speed };
+  });
+  console.log(`CPU information:`);
+  console.log(`Threads: ${cpusAll.length}`);
 
-// os --cpus > Получите информацию о процессорах хост-машины (общее количество процессоров плюс модель и тактовая частота (в ГГц) для каждого из них) и распечатайте ее на консоли.
-
-// os --homedir > Получить домашний каталог и вывести его на консоль
-
-// os --username > Получить текущее системное имя пользователя (не путать с именем пользователя, которое задается при запуске приложения) и вывести его на консоль
-
-// os --architecture > Получите архитектуру ЦП, для которой скомпилирован двоичный файл Node.js, и распечатайте его на консоли.
+  console.table(cpusInfo);
+}
