@@ -1,69 +1,22 @@
-import killProcess from '../util/killProcess.js'; //возможно удалить - заменить на exit
-import osInfo from '../functions/osInfo.js';
-import calcHash from '../functions/calcHash.js';
-import isAvailable from '../util/isAvailable.js';
-import commandList from '../data/commandList.js'; //доделать хелп
+const commandList = [
+  {
+    command: 'up',
+    group: 'filesystem',
+    description: 'Move to up from current path',
+    example: 'up <path_to_directory>',
+  },
+  {},
+];
 
-// const commandsIdent = {
+// {
 //   fs: ['up', 'cd', 'ls', 'cat', 'add', 'rn', 'cp', 'mv', 'rm'],
 //   os: ['os'],
 //   hash: ['hash'],
 //   zip: ['compress', 'decompress'],
 // };
 
-let currentCommand;
-
-async function mainCommandHandler(com, path) {
-  // if (com === '.exit') {
-  //   killProcess();
-  // }
-
-  currentCommand = com.split(' ');
-
-  switch (currentCommand[0]) {
-    case 'os':
-      osInfo(currentCommand);
-      return path;
-    case 'hash':
-      if (isAvailable(currentCommand[1])) {
-        await calcHash(currentCommand[1]);
-      } else {
-        console.log('Impossible to calculate hash: path is incorrect');
-      }
-      return path;
-    case 'compress':
-      if (isAvailable(currentCommand[1]) && isAvailable(currentCommand[2])) {
-        // compress function stream
-      } else {
-        console.log('Impossible to compress file: path is incorrect');
-      }
-      return path;
-    case 'decompress':
-      if (isAvailable(currentCommand[1]) && isAvailable(currentCommand[2])) {
-        // compress function stream
-      } else {
-        console.log('Impossible to decompress file: path is incorrect');
-      }
-      return path;
-    case 'help':
-      console.table(commandList, ['command', 'description', 'example']);
-      return path;
-    // case 'fs??':
-    //   null;
-    //   break;
-    case '.exit':
-      killProcess();
-      break;
-    default:
-      console.log('Instruction is not defined');
-  }
-  return;
-}
-
-export default mainCommandHandler;
-
-// КОМАНДЫ:
-
+// console.table(commandList, ['command', 'description', 'example']);
+export default commandList;
 // up > Перейти вверх из текущего каталога (когда вы находитесь в корневой папке, эта операция не должна изменять рабочий каталог)
 
 // cd path_to_directory > Перейти в выделенную папку из текущего каталога (path_to_directory может быть относительным или абсолютным)
