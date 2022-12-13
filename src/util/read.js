@@ -1,6 +1,6 @@
 import { readFile } from 'node:fs/promises';
 
-const readFile = async (path) => {
+const read = async (path) => {
   try {
     const content = await readFile(path, 'utf-8');
     return content;
@@ -9,4 +9,4 @@ const readFile = async (path) => {
   }
 };
 
-export default readFile;
+export default read;

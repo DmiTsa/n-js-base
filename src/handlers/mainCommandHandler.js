@@ -23,15 +23,14 @@ async function mainCommandHandler(com, path) {
   switch (currentCommand[0]) {
     case 'os':
       osInfo(currentCommand);
-      return path; //currentPath
+      return path;
     case 'hash':
       if (isAvailable(currentCommand[1])) {
         await calcHash(currentCommand[1]);
       } else {
         console.log('Impossible to calculate hash: path is incorrect');
       }
-      return path; //currentPath
-
+      return path;
     // case 'compress':
     //   null;
     //   break;
