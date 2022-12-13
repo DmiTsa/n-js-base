@@ -49,8 +49,8 @@ async function processCommand(path) {
       crlfDelay: Infinity,
     });
 
-    rl.on('line', (line) => {
-      currentPath = mainCommandHandler(line, path);
+    rl.on('line', async (line) => {
+      currentPath = await mainCommandHandler(line, path);
       greeting(currentPath);
     });
 

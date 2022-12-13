@@ -1,7 +1,7 @@
 import killProcess from '../util/killProcess.js'; //возможно удалить - заменить на exit
 import osInfo from '../functions/osInfo.js';
-// import osCommandHandler from './osCommandHandler.js'; другой хендлер
-// import osCommandHandler from './osCommandHandler.js'; другой хендлер
+import calcHash from '../functions/calcHash.js';
+import isAvailable from '../util/isAvailable.js';
 
 const commandsIdent = {
   fs: ['up', 'cd', 'ls', 'cat', 'add', 'rn', 'cp', 'mv', 'rm'],
@@ -12,7 +12,7 @@ const commandsIdent = {
 
 let currentCommand;
 
-function mainCommandHandler(com, path) {
+async function mainCommandHandler(com, path) {
   if (com === '.exit') {
     killProcess();
   }
@@ -25,8 +25,13 @@ function mainCommandHandler(com, path) {
       osInfo(currentCommand);
       return path; //currentPath
     case 'hash':
-      null;
-      break;
+      if (isAvailable(currentCommand[1])) {
+        await calcHash(currentCommand[1]);
+      } else {
+        console.log('Impossible to calculate hash: path is incorrect');
+      }
+      return path; //currentPath
+
     // case 'compress':
     //   null;
     //   break;
