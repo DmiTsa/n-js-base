@@ -1,30 +1,36 @@
-import killProcess from '../util/killProcess.js'; //доработать
-import osCommandHandler from './osCommandHandler.js';
+import killProcess from '../util/killProcess.js'; //возможно удалить - заменить на exit
+import osInfo from '../functions/osInfo.js';
 // import osCommandHandler from './osCommandHandler.js'; другой хендлер
 // import osCommandHandler from './osCommandHandler.js'; другой хендлер
+
+const commandsIdent = {
+  fs: ['up', 'cd', 'ls', 'cat', 'add', 'rn', 'cp', 'mv', 'rm'],
+  os: ['os'],
+  hash: ['hash'],
+  zip: ['compress', 'decompress'],
+};
 
 let currentCommand;
 
-function commandHandler(com) {
+function mainCommandHandler(com, path) {
   if (com === '.exit') {
     killProcess();
   }
+  // if help добавить
+
   currentCommand = com.split(' ');
 
   switch (currentCommand[0]) {
     case 'os':
-      osCommandHandler(currentCommand);
+      osInfo(currentCommand);
+      return path; //currentPath
+    case 'hash':
+      null;
       break;
-    // case 'hash':
-    //   null;
-    //   break;
     // case 'compress':
     //   null;
     //   break;
     // case 'decompress':
-    //   null;
-    //   break;
-    // case 'help':
     //   null;
     //   break;
     default:
@@ -34,7 +40,7 @@ function commandHandler(com) {
   return;
 }
 
-export default commandHandler;
+export default mainCommandHandler;
 
 // КОМАНДЫ:
 

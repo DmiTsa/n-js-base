@@ -2,56 +2,34 @@ import process from 'process';
 import { homedir } from 'os';
 import { once } from 'events';
 import { createInterface } from 'readline';
-import getCurrentPath from './util/getCurrentPath.js';
-import commandHandler from './handlers/commandHandler.js';
+import mainCommandHandler from './handlers/mainCommandHandler.js';
 
 const args = process.argv;
 const username = getArgValue(args, '--username=');
 const homePath = homedir();
-let currentPath; // = getCurrentPath(import.meta.url);
+let currentPath;
 
 console.log(
   `Welcome to the File Manager${username === undefined ? '' : ', ' + username}!`
 );
+
 greeting(homePath);
-await processCommand();
+currentPath = homePath;
 
-async function processCommand() {
-  try {
-    const rl = createInterface({
-      input: process.stdin,
-      crlfDelay: Infinity,
-    });
+await processCommand(currentPath);
 
-    rl.on('line', (line) => {
-      commandHandler(line);
-      // greeting(currentPath);
-    });
-
-    await once(rl, 'close');
-  } catch (err) {
-    console.error(err);
-  }
-}
-
-process.on('SIGINT', () => {
-  console.log('GOODBYE!!');
-});
-// process.stdin.setEncoding('utf-8').on('data', (str) => {
-//   command = str.toString();
-// commandHandler(command);
-// greeting(currentPath);
+// process.on('SIGINT', () => { реализовать!
+//   console.log('GOODBYE!!');
 // });
-
-// You are currently in path_to_working_directory
 
 //TODO После завершения работы программы (нажатие ctrl+c или ввод пользователем команды .exit в консоль) программа выводит в консоль следующий текст Thank you for using File Manager, Username, goodbye!
 // console.log(`Thank you for using File Manager, ${username}, goodbye!`);
 
 //Functions
-
 function greeting(path) {
+  console.log();
   console.log(`You are currently in ${path}`);
+  console.log(`Please, input a command or 'help' for get commands list`);
 }
 
 function getArgValue(args, argName) {
@@ -64,11 +42,25 @@ function getArgValue(args, argName) {
   return value;
 }
 
+async function processCommand(path) {
+  try {
+    const rl = createInterface({
+      input: process.stdin,
+      crlfDelay: Infinity,
+    });
+
+    rl.on('line', (line) => {
+      currentPath = mainCommandHandler(line, path);
+      greeting(currentPath);
+    });
+
+    await once(rl, 'close');
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 // //TODO При запуске программы и после каждого завершения ввода/операции текущий рабочий каталог должен выводиться следующим образом: You are currently in path_to_working_directory
-
-// //TODO Начальный рабочий каталог — это домашний каталог текущего пользователя (например, в Windows это что-то вроде  system_drive/Users/Username
-
-// //TODO По умолчанию программа должна предлагать пользователю в консоли печатать команды и ждать результатов.
 
 // //TODO В случае неизвестной операции или неверного ввода (отсутствуют обязательные аргументы, неверные данные в аргументах и ​​т. д.) должно отображаться сообщение о недопустимом вводе, и пользователь должен иметь возможность ввести другую команду.
 

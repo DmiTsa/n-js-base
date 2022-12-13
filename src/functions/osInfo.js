@@ -1,6 +1,6 @@
 import { cpus, arch, homedir, userInfo, EOL } from 'os';
 
-function osCommandHandler(com) {
+function osInfo(com) {
   switch (com[1]) {
     case '--EOL':
       console.log(`System EOL(s):`);
@@ -24,7 +24,7 @@ function osCommandHandler(com) {
   }
 }
 
-export default osCommandHandler;
+export default osInfo;
 
 //functions
 function printCpusInfo() {
