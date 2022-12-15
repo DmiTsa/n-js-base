@@ -1,6 +1,8 @@
 import killProcess from '../util/killProcess.js'; //возможно удалить - заменить на exit
 import osInfo from '../functions/osInfo.js';
 import calcHash from '../functions/calcHash.js';
+import printFile from '../functions/printFile.js';
+import createEmptyFIle from '../functions/createEmptyFIle.js';
 import isAvailable from '../util/isAvailable.js';
 import commandList from '../data/commandList.js'; //доделать хелп
 
@@ -25,21 +27,38 @@ async function mainCommandHandler(com, path) {
       osInfo(currentCommand);
       return path;
     case 'hash':
-      if (isAvailable(currentCommand[1])) {
+      if (await isAvailable(currentCommand[1])) {
         await calcHash(currentCommand[1]);
       } else {
         console.log('Impossible to calculate hash: path is incorrect');
       }
       return path;
+    // case 'cat':
+    //   if (await isAvailable(currentCommand[1])) {
+    //     await printFile(currentCommand[1]);
+    //   } else {
+    //     console.log('Impossible read file: path is incorrect');
+    //   }
+    //   return path;
+    case 'add':
+      //добавить удаление файла если есть
+      createEmptyFIle(path, currentCommand[1]);
+      return path;
     case 'compress':
-      if (isAvailable(currentCommand[1]) && isAvailable(currentCommand[2])) {
+      if (
+        (await isAvailable(currentCommand[1])) &&
+        (await isAvailable(currentCommand[2]))
+      ) {
         // compress function stream
       } else {
         console.log('Impossible to compress file: path is incorrect');
       }
       return path;
     case 'decompress':
-      if (isAvailable(currentCommand[1]) && isAvailable(currentCommand[2])) {
+      if (
+        (await isAvailable(currentCommand[1])) &&
+        (await isAvailable(currentCommand[2]))
+      ) {
         // compress function stream
       } else {
         console.log('Impossible to decompress file: path is incorrect');

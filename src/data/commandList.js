@@ -1,11 +1,52 @@
 const commandList = [
+  // {
+  //   command: 'up',
+  //   group: 'file system',
+  //   description: 'Move to up from current path',
+  //   example: 'up <path_to_directory>',
+  // },
   {
-    command: 'up',
-    group: 'filesystem',
-    description: 'Move to up from current path',
-    example: 'up <path_to_directory>',
+    command: 'add',
+    group: 'file system',
+    description: 'Create empty file from current path',
+    example: 'add <new_file_name>',
   },
-  {},
+  {
+    command: 'os --EOL',
+    group: 'operation system',
+    description: 'Get information of EOLs current operation system',
+    example: 'os --EOL',
+  },
+  {
+    command: 'os --cpus',
+    group: 'operation system',
+    description: 'Get information of CPUs current operation system',
+    example: 'os --cpus',
+  },
+  {
+    command: 'os --homedir',
+    group: 'operation system',
+    description: 'Get information of home direcrory current PC',
+    example: 'os --homedir',
+  },
+  {
+    command: 'os --username',
+    group: 'operation system',
+    description: 'Get information of current user',
+    example: 'os --username',
+  },
+  {
+    command: 'os --architecture',
+    group: 'operation system',
+    description: 'Get information of architecture current PC',
+    example: 'os --architecture',
+  },
+  {
+    command: 'hash',
+    group: 'hash',
+    description: 'Calculeted hash for file',
+    example: 'hash <path_to_file>',
+  },
 ];
 
 // {
@@ -15,8 +56,8 @@ const commandList = [
 //   zip: ['compress', 'decompress'],
 // };
 
-// console.table(commandList, ['command', 'description', 'example']);
 export default commandList;
+
 // up > Перейти вверх из текущего каталога (когда вы находитесь в корневой папке, эта операция не должна изменять рабочий каталог)
 
 // cd path_to_directory > Перейти в выделенную папку из текущего каталога (path_to_directory может быть относительным или абсолютным)

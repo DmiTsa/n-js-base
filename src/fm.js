@@ -1,8 +1,9 @@
-import process from 'process';
+// import process from 'process';
 import { homedir } from 'os';
 import { once } from 'events';
 import { createInterface } from 'readline';
 import mainCommandHandler from './handlers/mainCommandHandler.js';
+import getArgValue from './util/getArgValue.js';
 
 const args = process.argv;
 const username = getArgValue(args, '--username=');
@@ -30,16 +31,6 @@ function greeting(path) {
   console.log();
   console.log(`You are currently in ${path}`);
   console.log(`Please, input a command or 'help' for get commands list`);
-}
-
-function getArgValue(args, argName) {
-  let value;
-  args.forEach((el) => {
-    if (el.startsWith(argName)) {
-      value = el.slice(argName.length, el.length);
-    }
-  });
-  return value;
 }
 
 async function processCommand(path) {
