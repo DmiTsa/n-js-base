@@ -3,6 +3,7 @@ import { createInterface } from 'readline';
 import mainCommandHandler from './handlers/mainCommandHandler.js';
 import state from './data/state.js';
 import greeting from './util/greeting.js';
+import killProcess from './util/killProcess.js';
 
 let { currentPath, username } = state;
 
@@ -12,6 +13,10 @@ console.log(
 
 greeting(currentPath);
 await processCommand(currentPath);
+
+process.on('SIGINT', () => {
+  killProcess();
+});
 
 //Functions
 async function processCommand(path) {

@@ -1,8 +1,9 @@
 import isAvailable from '../util/isAvailable.js';
 import pathUp from '../functions/pathUp.js';
+// import list from '../functions/list.js';
 //
 import { join } from 'node:path';
-import killProcess from '../util/killProcess.js'; //возможно удалить - заменить на exit
+import killProcess from '../util/killProcess.js';
 import osInfo from '../functions/osInfo.js';
 import calcHash from '../functions/calcHash.js';
 import printFile from '../functions/printFile.js';
@@ -33,20 +34,28 @@ async function mainCommandHandler(com) {
       }
       greeting(currentPath);
       break;
-    case 'ls':
+    // case 'ls': //не реализовано исправить ф-цию list
+    //   await list(currentPath);
+    //   greeting(currentPath);
+    //   break;
+    //ЧАСТЬ НЕ РЕАЛИЗОВАННЫХ ФУНКЦИЙ
+    case 'os':
+      osInfo(currentCommand);
       greeting(currentPath);
       break;
+    case 'hash':
+      await calcHash(currentCommand[1]);
+      greeting(currentPath);
+      break;
+    case 'help':
+      console.table(commandList, ['command', 'description', 'example']);
+      greeting(currentPath);
+      break;
+    case '.exit':
+      killProcess();
+    default:
+      console.log('Instruction is not defined');
   }
-  // case 'os':
-  //   osInfo(currentCommand);
-  //   return path;
-  // case 'hash':
-  //   if (await isAvailable(currentCommand[1])) {
-  //     await calcHash(currentCommand[1]);
-  //   } else {
-  //     console.log('Impossible to calculate hash: path is incorrect');
-  //   }
-  //   return path;
   // // case 'cat':
   // //   if (await isAvailable(currentCommand[1])) {
   // //     await printFile(currentCommand[1]);
@@ -90,17 +99,6 @@ async function mainCommandHandler(com) {
   //     console.log('Impossible to decompress file: path is incorrect');
   //   }
   //   return path;
-  // case 'help':
-  //   console.table(commandList, ['command', 'description', 'example']);
-  //   return path;
-  // // case 'fs??':
-  // //   null;
-  // //   break;
-  // case '.exit':
-  //   killProcess();
-  //   break;
-  // default:
-  //   console.log('Instruction is not defined');
 
   //Functions
   async function commandSplit(inpCom) {

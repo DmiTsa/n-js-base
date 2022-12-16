@@ -11,19 +11,7 @@ const commandList = [
     description: 'Move to path',
     example: 'cd <path_to_directory>',
   },
-  //in PROCESS
-  {
-    command: 'add',
-    group: 'file system',
-    description: 'Create empty file from current path',
-    example: 'add <new_file_name>',
-  },
-  {
-    command: 'rm',
-    group: 'file system',
-    description: 'Delete file from current path',
-    example: 'rm <path_to_file>',
-  },
+  //НЕ РЕАЛИЗОВАННЫЕ ФУНКЦИИ
   {
     command: 'os --EOL',
     group: 'operation system',
@@ -59,6 +47,25 @@ const commandList = [
     group: 'hash',
     description: 'Calculeted hash for file',
     example: 'hash <path_to_file>',
+  },
+
+  // {
+  //   command: 'add',
+  //   group: 'file system',
+  //   description: 'Create empty file from current path',
+  //   example: 'add <new_file_name>',
+  // },
+  // {
+  //   command: 'rm',
+  //   group: 'file system',
+  //   description: 'Delete file from current path',
+  //   example: 'rm <path_to_file>',
+  // },
+  {
+    command: '.exit',
+    group: 'utility',
+    description: 'Exit from process',
+    example: '.exit',
   },
 ];
 
