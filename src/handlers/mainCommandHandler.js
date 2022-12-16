@@ -33,6 +33,9 @@ async function mainCommandHandler(com) {
       }
       greeting(currentPath);
       break;
+    case 'ls':
+      greeting(currentPath);
+      break;
   }
   // case 'os':
   //   osInfo(currentCommand);

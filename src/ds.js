@@ -1,20 +1,34 @@
-import isAvailable from './util/isAvailable.js';
+import fs from 'fs';
 
-const path = '../../tr.txt';
-// const path = 'C:\\Users\\dmitr\\n-js-base\\tr.txt'; C:\Users\dmitr\n-js-base\ ..//tr.txt
-let res;
+fs.stat('c:/Users', (err, stats) => {
+  if (err) {
+    console.error(err);
+    return;
+  }
+  //   console.log(stats.isFile());
+  console.log(stats.isDirectory());
 
-res = await isAvailable(path);
+  stats.isSymbolicLink(); //false
+  stats.size; //1024000 //= 1MB
+});
 
-console.log(path);
+// import isAvailable from './util/isAvailable.js';
 
-console.log(res);
+// const path = '../../tr.txt';
+// // const path = 'C:\\Users\\dmitr\\n-js-base\\tr.txt'; C:\Users\dmitr\n-js-base\ ..//tr.txt
+// let res;
 
-const currentPath = 'C:\\Users\\dmitr\\n-js-base';
-// destination 'C:\\Users\\dmitr\\n-js-base\\tmp\\cli';
-//зададим - tmp\\cli
+// res = await isAvailable(path);
 
-//функция на вход принимает путь пользователя и currentPath
-// определяет абсолютный путь или относительный
-// если абсолютный - возвращает
-// если относительный совмещает с currentPath и возврвщает
+// console.log(path);
+
+// console.log(res);
+
+// const currentPath = 'C:\\Users\\dmitr\\n-js-base';
+// // destination 'C:\\Users\\dmitr\\n-js-base\\tmp\\cli';
+// //зададим - tmp\\cli
+
+// //функция на вход принимает путь пользователя и currentPath
+// // определяет абсолютный путь или относительный
+// // если абсолютный - возвращает
+// // если относительный совмещает с currentPath и возврвщает

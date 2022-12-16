@@ -1,18 +1,31 @@
 import { readdir } from 'node:fs/promises';
-import getPath from './getPath.js';
-import isAvailable from './isAvailable.js';
+import fs from 'node:fs';
 
-const list = async () => {
-  const fullPath = getPath('/files');
-  const errorMsg = 'FS operation failed';
+async function list(path) {
+  const files = await readdir(path);
+  // console.log(files);
 
-  if (await isAvailable(fullPath)) {
-    const files = await readdir(fullPath);
-    console.log(`File list (${fullPath}) :`);
-    files.forEach((file) => console.log(file));
-  } else {
-    console.error(errorMsg);
-  }
-};
+  // console.log(`File list (${fullPath}) :`);
+  const res = files.map((el) => {
+    // console.log(stats.isFile(el));
 
-await list();
+    return { name: el };
+  });
+  // console.log(res);
+
+  // console.log(Stats('c:\\Users'));
+  console.log(fs.stat('c:\\Users'));
+}
+
+await list('c:\\Users');
+// console.log(stat());
+
+// var fs = require("fs");
+
+// fs.stat("filename.txt", function(err, stats) {
+//     if (stats.isFile()) {
+//         console.log("Файл не является папкой");
+//     } else {
+//         console.log("Файл является папкой");
+//     }
+// });
