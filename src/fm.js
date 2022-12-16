@@ -1,38 +1,19 @@
-// import process from 'process';
-import { homedir } from 'os';
 import { once } from 'events';
 import { createInterface } from 'readline';
 import mainCommandHandler from './handlers/mainCommandHandler.js';
-import getArgValue from './util/getArgValue.js';
+import state from './data/state.js';
+import greeting from './util/greeting.js';
 
-const args = process.argv;
-const username = getArgValue(args, '--username=');
-const homePath = homedir();
-let currentPath;
+let { currentPath, username } = state;
 
 console.log(
   `Welcome to the File Manager${username === undefined ? '' : ', ' + username}!`
 );
 
-greeting(homePath);
-currentPath = homePath;
-
+greeting(currentPath);
 await processCommand(currentPath);
 
-// process.on('SIGINT', () => { реализовать!
-//   console.log('GOODBYE!!');
-// });
-
-//TODO После завершения работы программы (нажатие ctrl+c или ввод пользователем команды .exit в консоль) программа выводит в консоль следующий текст Thank you for using File Manager, Username, goodbye!
-// console.log(`Thank you for using File Manager, ${username}, goodbye!`);
-
 //Functions
-function greeting(path) {
-  console.log();
-  console.log(`You are currently in ${path}`);
-  console.log(`Please, input a command or 'help' for get commands list`);
-}
-
 async function processCommand(path) {
   try {
     const rl = createInterface({
@@ -41,8 +22,8 @@ async function processCommand(path) {
     });
 
     rl.on('line', async (line) => {
-      currentPath = await mainCommandHandler(line, path);
-      greeting(currentPath); //нужно переносить пути  и гретинг в майн команд хендлер
+      await mainCommandHandler(line);
+      // greeting(currentPath); //нужно переносить пути  и гретинг в майн команд хендлер
     });
 
     await once(rl, 'close');
@@ -50,6 +31,8 @@ async function processCommand(path) {
     console.error(err);
   }
 }
+
+//TODO После завершения работы программы (нажатие ctrl+c или ввод пользователем команды .exit в консоль) программа выводит в консоль следующий текст Thank you for using File Manager, Username, goodbye!
 
 // //TODO При запуске программы и после каждого завершения ввода/операции текущий рабочий каталог должен выводиться следующим образом: You are currently in path_to_working_directory
 

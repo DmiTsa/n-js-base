@@ -9,10 +9,13 @@ import createEmptyFIle from '../functions/createEmptyFIle.js';
 import deleteFile from '../functions/deleteFIle.js';
 import isAvailable from '../util/isAvailable.js';
 import commandList from '../data/commandList.js'; //доделать хелп
+import state from '../data/state.js';
+import greeting from '../util/greeting.js';
 
+let { currentPath, username } = state;
 let currentCommand = [];
 
-async function mainCommandHandler(com, path) {
+async function mainCommandHandler(com) {
   const inputCom = com.split(' ');
   inputCom.map((el) => {
     if (el !== '') {
@@ -20,14 +23,13 @@ async function mainCommandHandler(com, path) {
     }
   });
 
-  //Main switch
+  //Main switch command
   switch (currentCommand[0]) {
     case 'up':
-      console.log(`path with commandHandler ${path}`);
-
-      let newPath = await pathUp(path);
-      console.log(`newPath ${newPath}`);
-      return newPath === undefined ? path : newPath;
+      let newPath = await pathUp(currentPath);
+      currentPath = newPath;
+      greeting(currentPath);
+      break;
     case 'os':
       osInfo(currentCommand);
       return path;

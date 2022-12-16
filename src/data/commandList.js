@@ -1,10 +1,11 @@
 const commandList = [
-  // {
-  //   command: 'up',
-  //   group: 'file system',
-  //   description: 'Move to up from current path',
-  //   example: 'up <path_to_directory>',
-  // },
+  {
+    command: 'up',
+    group: 'file system',
+    description: 'Move to up from current path',
+    example: 'up',
+  },
+  //in PROCESS
   {
     command: 'add',
     group: 'file system',
