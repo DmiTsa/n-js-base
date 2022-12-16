@@ -5,6 +5,12 @@ const commandList = [
     description: 'Move to up from current path',
     example: 'up',
   },
+  {
+    command: 'cd',
+    group: 'file system',
+    description: 'Move to path',
+    example: 'cd <path_to_directory>',
+  },
   //in PROCESS
   {
     command: 'add',

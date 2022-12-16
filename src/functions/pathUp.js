@@ -27,7 +27,7 @@ async function pathUp(path) {
     }
   } catch {
     console.error('Failed operation');
-    // return path;
+    return path;
   }
 }
 
