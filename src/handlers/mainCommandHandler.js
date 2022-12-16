@@ -1,28 +1,33 @@
+import pathUp from '../functions/pathUp.js';
+//
+import { join } from 'node:path';
 import killProcess from '../util/killProcess.js'; //возможно удалить - заменить на exit
 import osInfo from '../functions/osInfo.js';
 import calcHash from '../functions/calcHash.js';
 import printFile from '../functions/printFile.js';
 import createEmptyFIle from '../functions/createEmptyFIle.js';
+import deleteFile from '../functions/deleteFIle.js';
 import isAvailable from '../util/isAvailable.js';
 import commandList from '../data/commandList.js'; //доделать хелп
 
-// const commandsIdent = {
-//   fs: ['up', 'cd', 'ls', 'cat', 'add', 'rn', 'cp', 'mv', 'rm'],
-//   os: ['os'],
-//   hash: ['hash'],
-//   zip: ['compress', 'decompress'],
-// };
-
-let currentCommand;
+let currentCommand = [];
 
 async function mainCommandHandler(com, path) {
-  // if (com === '.exit') {
-  //   killProcess();
-  // }
+  const inputCom = com.split(' ');
+  inputCom.map((el) => {
+    if (el !== '') {
+      currentCommand.push(el);
+    }
+  });
 
-  currentCommand = com.split(' ');
-
+  //Main switch
   switch (currentCommand[0]) {
+    case 'up':
+      console.log(`path with commandHandler ${path}`);
+
+      let newPath = await pathUp(path);
+      console.log(`newPath ${newPath}`);
+      return newPath === undefined ? path : newPath;
     case 'os':
       osInfo(currentCommand);
       return path;
@@ -41,8 +46,20 @@ async function mainCommandHandler(com, path) {
     //   }
     //   return path;
     case 'add':
-      //добавить удаление файла если есть
-      createEmptyFIle(path, currentCommand[1]);
+      const fullPath = join(path, currentCommand[1]);
+      if (await isAvailable(fullPath)) {
+        await deleteFile(fullPath);
+        // await createEmptyFIle(path, currentCommand[1]); //добавить атрибут данные
+      }
+      await createEmptyFIle(path, currentCommand[1]);
+      console.log('File created!');
+      return path;
+    case 'rm':
+      if (await isAvailable(currentCommand[1])) {
+        deleteFile(currentCommand[1]);
+      } else {
+        console.log('Impossible to delete file: path to file is incorrect');
+      }
       return path;
     case 'compress':
       if (

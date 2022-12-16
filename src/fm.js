@@ -42,7 +42,7 @@ async function processCommand(path) {
 
     rl.on('line', async (line) => {
       currentPath = await mainCommandHandler(line, path);
-      greeting(currentPath);
+      greeting(currentPath); //нужно переносить пути  и гретинг в майн команд хендлер
     });
 
     await once(rl, 'close');

@@ -6,7 +6,6 @@ const createEmptyFIle = async (path, fileName) => {
   const data = '';
 
   appendFile(fullPath, data);
-  console.log('File created!');
 };
 
 export default createEmptyFIle;

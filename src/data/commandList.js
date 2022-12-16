@@ -12,6 +12,12 @@ const commandList = [
     example: 'add <new_file_name>',
   },
   {
+    command: 'rm',
+    group: 'file system',
+    description: 'Delete file from current path',
+    example: 'rm <path_to_file>',
+  },
+  {
     command: 'os --EOL',
     group: 'operation system',
     description: 'Get information of EOLs current operation system',
